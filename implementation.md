@@ -30,6 +30,22 @@ Outputs: uncertainty_results.csv, uncertainty_plot.png
 | Within 1.5*sigma | 84.4% |
 | Within 2.0*sigma | 88.9% |
 
+## Key Concepts
+- RF tree variance as uncertainty estimate (std across 200 tree predictions)
+- Calibration analysis: fraction of predictions within k*sigma (k=1, 1.5, 2)
+- Pearson correlation between predicted uncertainty (sigma) and actual error (|y - y_hat|)
+- LOO-CV for unbiased prediction + uncertainty estimation
+
+## Verification Checklist
+- [x] LOO-CV R² = 0.729, MAE = 0.268 (consistent with Phase 37)
+- [x] Pearson r (sigma vs |error|) = -0.115 (poor uncertainty-error correlation)
+- [x] 71.1% within 1*sigma (close to Gaussian 68%)
+- [x] uncertainty_results.csv and uncertainty_plot.png saved to output/
+
+## Risks
+- RF tree variance reflects ensemble disagreement, not true epistemic uncertainty
+- Negative correlation (r=-0.115) means RF sigma is slightly anti-predictive of actual errors on this dataset
+
 ## Key Insights
 - RF tree variance is poorly correlated with actual error (r=-0.115) — doesn't reliably flag uncertain predictions
 - Despite poor correlation, calibration is reasonable: 71% within 1σ (Gaussian would give 68%)
